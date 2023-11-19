@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
-@Table (name = "PRODUCTS")
+@Table
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,7 @@ public class Product {
     private String name;
     private double price;
     private LocalDate date;
-    @Transient
+
     private int createdAgo;
 
     public Product() {
@@ -62,13 +62,11 @@ public class Product {
 
     public void setDate(LocalDate date) {
         this.date = date;
+        this.createdAgo = Period.between(this.date, LocalDate.now()).getYears();
     }
 
     public int getCreatedAgo() {
-        return Period.between(LocalDate.now(), this.date).getYears();
+        return createdAgo;
     }
 
-    public void setCreatedAgo(int createdAgo) {
-        this.createdAgo = createdAgo;
-    }
 }
