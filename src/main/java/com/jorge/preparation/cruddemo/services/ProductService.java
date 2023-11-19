@@ -34,18 +34,34 @@ public class ProductService {
                     HttpStatus.CONFLICT
             );
         }
-        if (product.getId() != null) {
-            response.put("message", "Product updated successfully");
-            response.put("updatedProduct", product);
-        } else {
-            response.put("message", "Product added successfully");
-            response.put("addedProduct", product);
-        }
+        response.put("message", "Product added successfully");
+        response.put("addedProduct", product);
         response.put("Error", false);
         productRepository.save(product);
         return new ResponseEntity<>(
                 response,
                 HttpStatus.CREATED
+        );
+    }
+
+    public ResponseEntity<Object> updateProduct(Product product) {
+        Optional<Product> body = this.productRepository.findProductByName(product.getName());
+        response = new HashMap<>();
+        if (!body.isPresent()) {
+            response.put("Error", true);
+            response.put("message", "The product does not exist");
+            return new ResponseEntity<>(
+                    response,
+                    HttpStatus.CONFLICT
+            );
+        }
+        response.put("Error", false);
+        response.put("message", "The product was updated successfully");
+        response.put("updatedProduct", product);
+        this.productRepository.save(product);
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.OK
         );
     }
 

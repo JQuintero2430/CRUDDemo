@@ -29,7 +29,7 @@ public class ProductController {
 
     @PutMapping
     public ResponseEntity<Object> updateProduct(@RequestBody Product product) {
-        return this.productService.addProduct(product);
+        return this.productService.updateProduct(product);
     }
 
     @DeleteMapping({"/{id}"})
